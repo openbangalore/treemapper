@@ -1,14 +1,11 @@
 import MySQLdb
 
 from utils import _dict
-
-dbname = "treemapper"
-dbpass = "treemapper118"
-rootpass = "test123"
+from settings import *
 
 cursor = None
 
-def connect(cname, cpass=None):
+def connect(cname=None, cpass=None):
 	global cursor
 	if cname=="root":
 		cpass = rootpass or raw_input("Enter Root Password:")
@@ -19,6 +16,9 @@ def connect(cname, cpass=None):
 	conn = MySQLdb.connect(user=cname, host="localhost", passwd=cpass, use_unicode=True, charset='utf8')
 	conn.converter[246]=float
 	cursor = conn.cursor()
+	
+	if cname!="root":
+		sql("use %s" % cname)
 
 def sql(query, values=(), as_list=False, debug=False):
 	# execute
@@ -37,11 +37,11 @@ def sql(query, values=(), as_list=False, debug=False):
 		cursor.execute(query)
 
 	# scrub output if required
-	ret = cursor.fetchall()
-	if not as_list and cursor.description:
+	ret = list(cursor.fetchall())
+	if not as_list and cursor.description and ret:
 		colnames = [i[0] for i in cursor.description]
 		for i, r in enumerate(ret):
-			ret[i] = _dict((colname, r))
+			ret[i] = _dict(zip(colnames, r))
 
 	return ret
 

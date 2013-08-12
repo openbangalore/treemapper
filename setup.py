@@ -32,3 +32,6 @@ if __name__=="__main__":
 	
 	from importer import import_files
 	import_files()
+	
+	from build import make_html
+	make_html()

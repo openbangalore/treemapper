@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Treemapper India</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="js/leaflet.css" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="js/leaflet.ie.css" /><![endif]-->
+	<style>
+	.leaflet-shadow-pane { display:none; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div id="map" class="col-lg-12" style="height: 700px"></div>
+		</div>
+	</div>
+	<script src="js/leaflet.js"></script>
+	<script>
+		function repl(s, dict) {
+			if(s==null)return '';
+			for(key in dict) {
+				s = s.split("%("+key+")s").join(dict[key]);
+			}
+			return s;
+		}
+	
+		var trees = {{ trees }};
+		var map = L.map('map').setView([{{ start_y }}, {{ start_x }}], 13);
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+		
+		trees.forEach(function(tree) {
+			L.marker([tree.point_y, tree.point_x]).addTo(map)
+				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
+		})
+
+	</script>
+</body>
+</html>
