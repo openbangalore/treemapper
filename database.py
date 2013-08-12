@@ -6,9 +6,10 @@ from settings import *
 cursor = None
 
 def connect(cname=None, cpass=None):
+	import getpass
 	global cursor
 	if cname=="root":
-		cpass = rootpass or raw_input("Enter Root Password:")
+		cpass = rootpass or getpass.getpass("Enter Root Password:")
 	else:
 		cname = dbname
 		cpass = dbpass

@@ -18,7 +18,13 @@ def make_html():
 			html = jenv.get_template(fname).render(args)
 			with open(os.path.join("public", fname), "w") as outfile:
 				outfile.write(html)
+
+def make_gh_pages():
+	if not os.path.exists("gh_pages"):
+		os.mkdir("gh_pages")
+	os.system("cp -R public/* gh_pages/")
 				
 if __name__=="__main__":
 	database.connect()
 	make_html()
+	make_gh_pages()
