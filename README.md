@@ -10,4 +10,4 @@ Tree Census Tool for TreeMapIndia
 	1. Jinja2
 
 
-To build, run `python setup.py`
+To build, run `python treemapper/setup.py`

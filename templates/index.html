@@ -4,9 +4,13 @@
 	<title>Treemapper India</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<link rel="stylesheet" href="js/leaflet.css" />
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link rel="stylesheet" href="css/treemapper.css" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 	<!--[if lte IE 8]><link rel="stylesheet" href="js/leaflet.ie.css" /><![endif]-->
 	<style>
 	.leaflet-shadow-pane { display:none; }
@@ -15,6 +19,7 @@
 <body>
 	<div class="container">
 		<div class="row">
+			<button class="btn btn-primary pull-right btn-login">Login</button>
 			<h1><i class="icon-leaf"></i> Tree Mapper, India</h1>
 			<hr>
 		</div>
@@ -23,28 +28,13 @@
 		</div>
 	</div>
 	<script src="js/leaflet.js"></script>
+	<script src="js/treemapper.js"></script>
 	<script>
-		function repl(s, dict) {
-			if(s==null)return '';
-			for(key in dict) {
-				s = s.split("%("+key+")s").join(dict[key]);
-			}
-			return s;
-		}
-	
 		var trees = {{ trees }};
-		var map = L.map('map').setView([{{ start_y }}, {{ start_x }}], 13);
-
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
-		
-		trees.forEach(function(tree) {
-			L.marker([tree.point_y, tree.point_x]).addTo(map)
-				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
-		})
-
+		var start_x = {{ start_x }};
+		var start_y = {{ start_y }};
+		treemapper.render();
 	</script>
+	<script src="https://login.persona.org/include.js"></script>
 </body>
 </html>
