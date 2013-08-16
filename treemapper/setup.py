@@ -14,12 +14,15 @@ def make_db():
 	database.sql("""grant all privileges on %s.* to %s@localhost""" % (database.dbname, database.dbname))
 	database.sql("""flush privileges""")
 	database.sql("""use %s""" % database.dbname)
+
 	database.sql("""create table `user` (
 		email varchar(180) primary key not null,
-		password varchar(180),
 		first_name varchar(180),
 		last_name varchar(180)) engine=InnoDB character set=utf8""")
 
+	database.sql("""create table `session` (
+		id varchar(180) primary key not null,
+		email varchar(180)) engine=InnoDB character set=utf8""")
 
 def make_tables():
 	from utils import get_csv_data

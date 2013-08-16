@@ -22,6 +22,9 @@ def connect(cname=None, cpass=None):
 		sql("use %s" % cname)
 
 def sql(query, values=(), as_list=False, debug=False):
+	if not cursor:
+		connect()
+	
 	# execute
 	if values!=():
 		if isinstance(values, dict):
@@ -46,6 +49,9 @@ def sql(query, values=(), as_list=False, debug=False):
 
 	return ret
 
+def commit():
+	sql("commit")
+	
 def create_table(tablename, columns, primary_key, data):
 	defs = [] 
 	for i, c in enumerate(columns):

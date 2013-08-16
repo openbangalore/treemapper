@@ -8,6 +8,7 @@ Tree Census Tool for TreeMapIndia
 1. Python Libraries
 	1. MySQLdb
 	1. Jinja2
+	1. requests
 
 
 To build, run `python treemapper/setup.py`

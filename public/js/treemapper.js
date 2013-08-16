@@ -1,5 +1,88 @@
+var user=null;
 var treemapper = {};
-var user = null;
+
+treemapper = {
+	render: function() {
+		var map = L.map('map').setView([start_y, start_x], 13);
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+
+		trees.forEach(function(tree) {
+			L.marker([tree.point_y, tree.point_x]).addTo(map)
+				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
+		})
+	},
+	setup_login: function() {
+		$(".toolbar-message").html('Login to add a tree.');
+		$('<button class="btn btn-primary btn-login">Login</button>')
+			.appendTo($(".toolbar-btn-area").empty())
+			.click(function() {
+				treemapper.setup_persona();
+				navigator.id.request();
+			});
+	},
+	setup_toolbar: function() {
+		$(".toolbar-message").html(repl('%(email)s, <a href="#" class="logout"">Logout</a></p>',
+				{email: getCookie("email")}));
+
+		$('<button class="btn btn-primary pull-right btn-add">Add A Tree</button>')
+			.appendTo($(".toolbar-btn-area").empty())
+			.click(function() {
+				alert("Nothing to see yet!")
+			});
+
+		$(".logout").click(function() {
+			treemapper.setup_persona();
+			navigator.id.logout();
+			return false;
+		});
+	},
+	call: function(cmd, data, success, error) {
+		data.cmd = cmd;
+		$.ajax({
+			type: 'POST',
+			url: 'server.py', // This is a URL on your website.
+			data: data,
+			dataType: "json",
+			success: success,
+			error: error
+		});
+	},
+	setup_persona: function() {
+		navigator.id.watch({
+			loggedInUser: getCookie("email"),
+			onlogin: function(assertion) {
+				$(".btn-login").html("Verifying...").attr("disabled", "disabled");
+				treemapper.call("login", {assertion: assertion}, function(res) {
+					treemapper.setup_toolbar();
+				})
+			},
+			onlogout: function() {
+				console.log("here");
+				treemapper.call("logout", {}, function(res) {
+					treemapper.setup_login();
+				})
+			}
+		})
+	}
+}
+
+$(document).ready(function() {
+	if(getCookie("sid")) {
+		treemapper.call("verify", {}, function(res) { 
+			if(res.session_status!="okay") {
+				treemapper.setup_login();
+			} else {
+				treemapper.setup_toolbar(res.session_email);
+			}
+		});
+	} else {
+		treemapper.setup_login();
+	}
+});
 
 function repl(s, dict) {
 	if(s==null)return '';
@@ -9,62 +92,16 @@ function repl(s, dict) {
 	return s;
 }
 
-treemapper.render = function() {
-	var map = L.map('map').setView([start_y, start_x], 13);
-
-	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-		maxZoom: 18,
-		attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
-
-	trees.forEach(function(tree) {
-		L.marker([tree.point_y, tree.point_x]).addTo(map)
-			.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
-	})
-};
-
-treemapper.setup_persona = function() {
-	navigator.id.watch({
-	  loggedInUser: user,
-	  onlogin: function(assertion) {
-	    // A user has logged in! Here you need to:
-	    // 1. Send the assertion to your backend for verification and to create a session.
-	    // 2. Update your UI.
-		console.log(assertion);
-		return;
-	    $.ajax({ /* <-- This example uses jQuery, but you can use whatever you'd like */
-	      type: 'POST',
-	      url: '/auth/login', // This is a URL on your website.
-	      data: {assertion: assertion},
-	      success: function(res, status, xhr) { window.location.reload(); },
-	      error: function(xhr, status, err) {
-	        navigator.id.logout();
-	        alert("Login failure: " + err);
-	      }
-	    });
-	  },
-	  onlogout: function() {
-	    // A user has logged out! Here you need to:
-	    // Tear down the user's session by redirecting the user or making a call to your backend.
-	    // Also, make sure loggedInUser will get set to null on the next page load.
-	    // (That's a literal JavaScript null. Not false, 0, or undefined. null.)
-	    $.ajax({
-	      type: 'POST',
-	      url: '/auth/logout', // This is a URL on your website.
-	      success: function(res, status, xhr) { window.location.reload(); },
-	      error: function(xhr, status, err) { alert("Logout failure: " + err); }
-	    });
-	  }
-	});
-	
-	$(".btn-login").click(function() {
-		navigator.id.request();
-	});
+function getCookie(c) {
+	var clist = (document.cookie+'').split(';');
+	var cookies = {};
+	for(var i=0;i<clist.length;i++) {
+		var tmp = clist[i].split('=');
+		cookies[tmp[0].trim()] = tmp[1].trim();
+	}
+	ret = cookies[c];
+	if(ret.substr(0,1)=='"') ret = ret.substr(1, ret.length-2);
+	return ret;
 }
-
-$(document).ready(function() {
-	treemapper.setup_persona();
-});
-
 
 

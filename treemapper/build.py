@@ -8,8 +8,8 @@ def make_html():
 	for fname in os.listdir("templates"):
 		if fname.endswith(".html"):
 			print "building " + fname
-			start = database.sql("""select avg(point_x) as x, avg(point_y) as y from Tree""")[0]
-			trees = database.sql("""select point_x, point_y, scientific, address from Tree""")
+			start = database.sql("""select avg(point_x) as x, avg(point_y) as y from Tree limit 100""")[0]
+			trees = database.sql("""select point_x, point_y, scientific, address from Tree limit 100""")
 			args = {
 				"start_x": start.x,
 				"start_y": start.y,
