@@ -1,7 +1,7 @@
 import database, utils, os
 
 def import_files():
-	for table in ("species", "tree"):
+	for table in ("Species", "Tree"):
 		for fname in os.listdir(os.path.join("data", table)):
 			if fname.endswith(".csv"):
 				print fname + "..."
