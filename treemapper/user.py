@@ -8,7 +8,7 @@ def login(form):
 	# Send the assertion to Mozilla's verifier service.
 	data = {
 		'assertion': form.assertion, 
-		'audience': os.environ["REMOTE_HOST"]
+		'audience': os.environ["HTTP_HOST"]
 	}
 	resp = requests.post('https://verifier.login.persona.org/verify', data=data, verify=True)
 
