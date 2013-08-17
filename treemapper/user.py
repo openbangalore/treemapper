@@ -1,4 +1,4 @@
-import treemapper, database, requests, json
+import treemapper, database, requests, json, os
 
 def login(form):
 	# The request has to have an assertion for us to verify
@@ -8,7 +8,7 @@ def login(form):
 	# Send the assertion to Mozilla's verifier service.
 	data = {
 		'assertion': form.assertion, 
-		'audience': 'localhost'
+		'audience': os.environ["REMOTE_HOST"]
 	}
 	resp = requests.post('https://verifier.login.persona.org/verify', data=data, verify=True)
 
