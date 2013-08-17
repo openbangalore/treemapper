@@ -93,6 +93,7 @@ function repl(s, dict) {
 }
 
 function getCookie(c) {
+	if(!document.cookie) return "";
 	var clist = (document.cookie+'').split(';');
 	var cookies = {};
 	for(var i=0;i<clist.length;i++) {
