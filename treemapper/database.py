@@ -58,10 +58,9 @@ def create_table(tablename, columns, primary_key, data, auto_increment=False):
 		ctype = guess_type([d[i] for d in data[1:10]])
 		keys = ""
 		if c==primary_key:
-			keys = "primary key not null"
 			if auto_increment:
 				keys += " auto_increment"
-		defs.append("`%s` %s %s" % (c.lower(), ctype, keys))
+		defs.append("`%s` %s %s" % (c.lower().strip(), ctype, keys))
 	sql("""drop table if exists `%s`""" % (tablename,))
 	sql("""create table `%s` (%s) engine=InnoDB character set=utf8""" % (tablename, ", ".join(defs)))
 	

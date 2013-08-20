@@ -27,7 +27,7 @@ def make_db():
 def make_tables():
 	from utils import get_csv_data
 	tables = {
-		"Species": {"filename": "data/species/species_list.csv"},
+		"Species": {"filename": "data/species/tree_list.csv", "primary_key": "code"},
 		"Tree": {"filename": "data/tree/PUNE3_TreesOTM.csv", "primary_key": "ID"}
 	}
 	
