@@ -13,3 +13,5 @@ def add_tree(form, cookies):
 	
 	database.insert("Tree", data)
 	database.commit()
+
+	return "inserted"

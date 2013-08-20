@@ -73,12 +73,16 @@ treemapper = {
 		})
 	},
 	get_form_values: function(id) {
-		$("#"+id).find('["name"]')
+		var form = {};
+		$.each($("#"+id).serializeArray(), function(i, obj) {
+			form[obj.name] = obj.value;
+		});
+		return form;
 	},
 	setup_add_tree: function() {
-		treemapper.call("add_tree", { tree: {  }}, 
+		treemapper.call("add_tree", {tree: treemapper.get_form_values("add-tree")}, 
 			function(res) {
-			
+				console.log(res);
 			});
 	}
 }
