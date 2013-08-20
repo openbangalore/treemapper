@@ -1,31 +1,44 @@
-import os, database, json
+import os, database, json, time
 
 from jinja2 import Environment, FileSystemLoader
 
+timestamps = {}
+
 def make_html():
+	global timestamps
 	jenv = Environment(loader = FileSystemLoader("templates"))
 
 	for fname in os.listdir("templates"):
 		if fname.endswith(".html"):
+			source_file_path = os.path.join("templates", fname)
+			out_file_path = os.path.join("public", fname)
+			
+			if os.path.exists(out_file_path) and \
+				timestamps.get(out_file_path) == os.path.getmtime(source_file_path):
+					continue
+			
 			print "building " + fname
 			start = database.sql("""select avg(point_x) as x, avg(point_y) as y from Tree limit 100""")[0]
 			trees = database.sql("""select point_x, point_y, scientific, address from Tree limit 100""")
+			species = database.sql("""select distinct common_name from Species
+					where ifnull(common_name, "")!="" order by common_name""")
+			
 			args = {
 				"start_x": start.x,
 				"start_y": start.y,
-				"trees": json.dumps(trees)
+				"trees": json.dumps(trees),
+				"species": species
 			}
 			html = jenv.get_template(fname).render(args)
-			with open(os.path.join("public", fname), "w") as outfile:
+			with open(out_file_path, "w") as outfile:
 				outfile.write(html)
+				timestamps[out_file_path] = os.path.getmtime(source_file_path)
 				
-	make_gh_pages()
-
-def make_gh_pages():
-	if not os.path.exists("gh_pages"):
-		os.mkdir("gh_pages")
-	os.system("cp -R public/* gh_pages/")
+def watch():
+	while True:
+		time.sleep(1)
+		make_html()
 				
 if __name__=="__main__":
 	database.connect()
-	make_html()
+	watch()

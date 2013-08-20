@@ -47,7 +47,12 @@ treemapper = {
 			url: 'server.py', // This is a URL on your website.
 			data: data,
 			dataType: "json",
-			success: success,
+			success: function(r) {
+				if(r.action==="refresh") {
+					window.location.reload();
+				}
+				success(r);
+			},
 			error: error
 		});
 	},
@@ -61,12 +66,20 @@ treemapper = {
 				})
 			},
 			onlogout: function() {
-				console.log("here");
 				treemapper.call("logout", {}, function(res) {
 					treemapper.setup_login();
 				})
 			}
 		})
+	},
+	get_form_values: function(id) {
+		$("#"+id).find('["name"]')
+	},
+	setup_add_tree: function() {
+		treemapper.call("add_tree", { tree: {  }}, 
+			function(res) {
+			
+			});
 	}
 }
 
@@ -76,7 +89,8 @@ $(document).ready(function() {
 			if(res.session_status!="okay") {
 				treemapper.setup_login();
 			} else {
-				treemapper.setup_toolbar(res.session_email);
+				treemapper.setup_toolbar();
+				treemapper.setup_add_tree();
 			}
 		});
 	} else {
@@ -101,7 +115,7 @@ function getCookie(c) {
 		cookies[tmp[0].trim()] = tmp[1].trim();
 	}
 	ret = cookies[c];
-	if(ret.substr(0,1)=='"') ret = ret.substr(1, ret.length-2);
+	if(ret && ret.substr(0,1)=='"') ret = ret.substr(1, ret.length-2);
 	return ret;
 }
 

@@ -1,6 +1,6 @@
 import treemapper, database, requests, json, os
 
-def login(form):
+def login(form, cookies):
 	# The request has to have an assertion for us to verify
 	if 'assertion' not in form:
 		raise Exception, e
@@ -39,15 +39,18 @@ def make_session(email):
 
 	database.commit()
 
-def verify_session(cookies):
+def verify(form, cookies):
 	sid = cookies.get("sid")
 	if sid:
 		session = database.sql("""select email from `session` where id=%s""", sid)
 		if session:
-			treemapper.response.session_status = "okay"
-			treemapper.response.session_email = session[0].email
+			if form.cmd == "verify":
+				treemapper.response.session_status = "okay"
+				treemapper.response.session_email = session[0].email
+			else:
+				return session[0].email
 
-def logout(cookies):
+def logout(form, cookies):
 	import Cookie
 	sid = cookies.get("sid")
 	if sid:

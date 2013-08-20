@@ -6,7 +6,8 @@ cgitb.enable()
 sys.path.append("..")
 
 import treemapper
-import treemapper.user
+import treemapper.auth
+import treemapper.model
 
 response = "Hello"
 
@@ -31,16 +32,19 @@ def get_cookies():
 			cookies[c.key] = c.value
 		
 	return cookies
+	
+methods = {
+	"login": treemapper.auth.login,
+	"logout": treemapper.auth.logout,
+	"verify": treemapper.auth.verify,
+	"add_tree": treemapper.model.add_tree,
+}
 
 if __name__=="__main__":
 	form = get_cgi_fields()
 	cookies = get_cookies()
-	if form.cmd=="login":
-		treemapper.user.login(form)
-	elif form.cmd=="logout":
-		treemapper.user.logout(cookies)
-	elif form.cmd:
-		treemapper.user = treemapper.user.verify_session(cookies)
+	if form.cmd and methods.get(form.cmd):
+		methods[form.cmd](form, cookies)
 	
 	print "Content-type: text/html"
 	if treemapper.response_cookies:
