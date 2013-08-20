@@ -20,8 +20,8 @@ def make_html():
 			print "building " + fname
 			start = database.sql("""select avg(point_x) as x, avg(point_y) as y from Tree limit 100""")[0]
 			trees = database.sql("""select point_x, point_y, scientific, address from Tree limit 100""")
-			species = database.sql("""select distinct common_name from Species
-					where ifnull(common_name, "")!="" order by common_name""")
+			species = database.sql("""select distinct local_name from Species
+					where ifnull(local_name, "")!="" order by local_name""")
 			
 			args = {
 				"start_x": start.x,

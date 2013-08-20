@@ -47,7 +47,7 @@
 				<div class="form-group">
 					<select name="species">
 						{% for s in species -%}
-							<option value="{{ s.common_name }}">{{ s.common_name }}</option>
+							<option value="{{ s.local_name }}">{{ s.local_name }}</option>
 						{%- endfor %}
 					</select>
 				</div>
