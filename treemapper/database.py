@@ -59,7 +59,7 @@ def create_table(tablename, columns, primary_key, data):
 		keys = ""
 		if c==primary_key:
 			keys = "primary key not null"
-		defs.append("`%s` %s %s" % (c.lower(), ctype, keys))
+		defs.append("`%s` %s %s" % (c.lower().strip(), ctype, keys))
 	sql("""drop table if exists `%s`""" % (tablename,))
 	sql("""create table `%s` (%s) engine=InnoDB character set=utf8""" % (tablename, ", ".join(defs)))
 	
