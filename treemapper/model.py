@@ -32,7 +32,7 @@ def get_tree_details(form, cookies):
 		treemapper.response.status = "not found"
 
 def save(form, cookies):
-	import base64
+	import base64, shutil
 	rebuild = False
 	
 	email = auth.verify(form, cookies)
@@ -53,7 +53,10 @@ def save(form, cookies):
 
 	# set files in master (if not set)
 	if not database.sql("select tree_img from Species where local_name=%s", form.local_name)[0].tree_img:
-		database.sql("update Species set tree_img=%s where local_name=%s", (treefilepath, form.local_name))
+		masterfilepath = os.path.join("img", "master", 
+			form.local_name.replace(" ", "_").lower() + "-tree.jpg")
+		shutil.copyfile(treefilepath, masterfilepath)
+		database.sql("update Species set tree_img=%s where local_name=%s", (masterfilepath, form.local_name))
 		rebuild = True
 
 	if form.leaf_img:
@@ -63,7 +66,10 @@ def save(form, cookies):
 		database.sql("update Tree set leaf_img=%s where id=%s", (leaffilepath, treeid))
 
 		if not database.sql("select leaf_img from Species where local_name=%s", form.local_name)[0].leaf_img:
-			database.sql("update Species set leaf_img=%s where local_name=%s", (leaffilepath, form.local_name))
+			masterfilepath = os.path.join("img", "master", 
+				form.local_name.replace(" ", "_").lower() + "-leaf.jpg")
+			shutil.copyfile(leaffilepath, masterfilepath)
+			database.sql("update Species set leaf_img=%s where local_name=%s", (masterfilepath, form.local_name))
 			rebuild = True
 			
 	database.commit()
