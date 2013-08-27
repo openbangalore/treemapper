@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Treemapper India</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<link rel="stylesheet" href="js/leaflet.css" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link rel="stylesheet" href="css/treemapper.css" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!--[if lte IE 8]><link rel="stylesheet" href="js/leaflet.ie.css" /><![endif]-->
+	<style>
+	.leaflet-shadow-pane { display:none; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row" style="min-height: 34px;">
+			<div class="col-lg-6">
+				<p class="text-muted toolbar-message" style="margin-top: 6px;">Verifying...</p>
+			</div>
+			<div class="col-lg-6 toolbar-btn-area" style="text-align: right">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h1><i class="icon-leaf"></i> Tree Mapper, India</h1>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div id="map" class="col-lg-12" style="height: 400px">
+			</div>
+		</div>
+		<div class="row">
+			<form role="form" id="add-tree">
+				<div class="form-group">
+					<label for="Add a Photo">Add a Photo</label>
+					<input type="file" name="photo">
+					<p class="help-block">Take a picture of the tree. Try to capture the canopy.</p>
+				</div>
+				<button class="btn btn-default">Capture Location</button>
+				<input type="hidden" name="location">
+				<div class="form-group">
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
+	<script src="js/leaflet.js"></script>
+	<script src="js/treemapper.js"></script>
+	<script>
+		var trees = {{ trees }};
+		var start_x = {{ start_x }};
+		var start_y = {{ start_y }};
+		treemapper.render();
+	</script>
+	<script src="https://login.persona.org/include.js"></script>
+</body>
+</html>
