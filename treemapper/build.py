@@ -50,8 +50,9 @@ def make_html():
 
 def rebuild_tree_pages(species_list):		
 	source_file_path = os.path.join(os.path.dirname(__file__), "..", "templates", "generators", "tree-info.html")
+	templates_path = os.path.join(os.path.dirname(__file__), "..", "templates")
 	if not is_same(source_file_path):
-		jenv = Environment(loader = FileSystemLoader("templates"))
+		jenv = Environment(loader = FileSystemLoader(templates_path))
 		for item in species_list:
 			out_file_path = os.path.join("public", item.local_name.replace(" ", "_").lower() + ".html")
 			html = jenv.get_template("generators/tree-info.html").render({"item": item})
