@@ -38,6 +38,8 @@ methods = {
 	"logout": treemapper.auth.logout,
 	"verify": treemapper.auth.verify,
 	"add_tree": treemapper.model.add_tree,
+	"get_tree_details": treemapper.model.get_tree_details,
+	"save": treemapper.model.save
 }
 
 if __name__=="__main__":

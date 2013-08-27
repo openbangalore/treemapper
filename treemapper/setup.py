@@ -27,13 +27,23 @@ def make_db():
 def make_tables():
 	from utils import get_csv_data
 	tables = {
-		"Species": {"filename": "data/species/tree_list.csv", "primary_key": "code"},
-		"Tree": {"filename": "data/tree/PUNE3_TreesOTM.csv", "primary_key": "ID"}
+		"Species": {
+			"filename": "data/species/tree_list.csv", 
+			"primary_key": "code",
+			"add_fields": ["tree_img varchar(255)", "leaf_img varchar(255)"]
+		},
+		"Tree": {
+			"filename": "data/tree/PUNE3_TreesOTM.csv", 
+			"primary_key": "ID",
+			"add_fields": ["local_name varchar(255)", "tree_img varchar(255)", 
+				"leaf_img varchar(255)", "user varchar(255)"]
+		}
 	}
 	
 	for tablename, opts in tables.items():
 		data = get_csv_data(opts["filename"])
-		database.create_table(tablename, data[0], opts.get("primary_key"), data)
+		database.create_table(tablename, data[0], opts.get("primary_key"), 
+			add_fields=opts.get("add_fields"),data=data)
 	
 if __name__=="__main__":
 	make_db()

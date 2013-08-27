@@ -1,6 +1,22 @@
 var user=null;
 var treemapper = {};
 
+$(document).ready(function() {
+	if(getCookie("sid")) {
+		treemapper.call("verify", {}, function(res) { 
+			if(res.session_status!="okay") {
+				treemapper.setup_login();
+			} else {
+				$(".btn-login").html("Add A Tree").on("click", function() {
+					treemapper.show_add();
+				})
+			}
+		});
+	} else {
+		treemapper.setup_login();
+	}
+});
+
 treemapper = {
 	render: function() {
 		var map = L.map('map').setView([start_y, start_x], 13);
@@ -16,24 +32,18 @@ treemapper = {
 		})
 	},
 	setup_login: function() {
-		$(".toolbar-message").html('Login to add a tree.');
-		$('<button class="btn btn-primary btn-login">Login</button>')
-			.appendTo($(".toolbar-btn-area").empty())
-			.click(function() {
+		$(".btn-login").click(function() {
 				treemapper.setup_persona();
 				navigator.id.request();
 			});
 	},
-	setup_toolbar: function() {
-		$(".toolbar-message").html(repl('%(email)s, <a href="#" class="logout"">Logout</a></p>',
+	show_add: function() {
+		$(".splash").toggle(false);
+		$(".add-tree").toggle(true);
+
+		$(".toolbar-btn-area").html(repl('<p class="text-muted">%(email)s, <a href="#" class="logout">Logout</a></p>',
 				{email: getCookie("email")}));
-
-		$('<button class="btn btn-primary pull-right btn-add">Add A Tree</button>')
-			.appendTo($(".toolbar-btn-area").empty())
-			.click(function() {
-				alert("Nothing to see yet!")
-			});
-
+		
 		$(".logout").click(function() {
 			treemapper.setup_persona();
 			navigator.id.logout();
@@ -42,12 +52,14 @@ treemapper = {
 	},
 	call: function(cmd, data, success, error) {
 		data.cmd = cmd;
+		NProgress.start();
 		$.ajax({
 			type: 'POST',
 			url: 'server.py', // This is a URL on your website.
 			data: data,
 			dataType: "json",
 			success: function(r) {
+				NProgress.done();
 				if(r.action==="refresh") {
 					window.location.reload();
 				}
@@ -62,41 +74,24 @@ treemapper = {
 			onlogin: function(assertion) {
 				$(".btn-login").html("Verifying...").attr("disabled", "disabled");
 				treemapper.call("login", {assertion: assertion}, function(res) {
-					treemapper.setup_toolbar();
+					treemapper.show_add();
 				})
 			},
 			onlogout: function() {
 				treemapper.call("logout", {}, function(res) {
-					treemapper.setup_login();
+					window.location.reload();
 				})
 			}
 		})
 	},
 	get_form_values: function(id) {
-		$("#"+id).find('["name"]')
-	},
-	setup_add_tree: function() {
-		treemapper.call("add_tree", { tree: {  }}, 
-			function(res) {
-			
-			});
-	}
-}
-
-$(document).ready(function() {
-	if(getCookie("sid")) {
-		treemapper.call("verify", {}, function(res) { 
-			if(res.session_status!="okay") {
-				treemapper.setup_login();
-			} else {
-				treemapper.setup_toolbar();
-				treemapper.setup_add_tree();
-			}
+		var form = {};
+		$.each($("#"+id).serializeArray(), function(i, obj) {
+			form[obj.name] = obj.value;
 		});
-	} else {
-		treemapper.setup_login();
-	}
-});
+		return form;
+	},
+}
 
 function repl(s, dict) {
 	if(s==null)return '';

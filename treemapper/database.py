@@ -49,10 +49,16 @@ def sql(query, values=(), as_list=False, debug=False):
 
 	return ret
 
+def get_result_key():
+	key = _dict({})
+	for i, col in enumerate(cursor.description):
+		key[col[0]] = i
+	return key
+
 def commit():
 	sql("commit")
 	
-def create_table(tablename, columns, primary_key, data, auto_increment=False):
+def create_table(tablename, columns, primary_key, add_fields=None, data=[], auto_increment=False):
 	defs = [] 
 	for i, c in enumerate(columns):
 		ctype = guess_type([d[i] for d in data[1:10]])
@@ -61,6 +67,9 @@ def create_table(tablename, columns, primary_key, data, auto_increment=False):
 			if auto_increment:
 				keys += " auto_increment"
 		defs.append("`%s` %s %s" % (c.lower().strip(), ctype, keys))
+	if add_fields:
+		defs = defs + add_fields
+			
 	sql("""drop table if exists `%s`""" % (tablename,))
 	sql("""create table `%s` (%s) engine=InnoDB character set=utf8""" % (tablename, ", ".join(defs)))
 	
@@ -93,5 +102,5 @@ def insert(table, data):
 
 	for d in data:
 		keys, values = d.keys(), d.values()
-		sql("""insert into `%s` (%s) values (%s)""" % (table, ", ".join(["`%s`"]*len(keys))),
-			values)
+		sql("""insert into `%s` (`%s`) values (%s)""" % (table, "`, `".join(keys),
+			 ", ".join(["%s"]*len(keys))), values)
