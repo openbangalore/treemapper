@@ -51,6 +51,7 @@ treemapper = {
 		scroll(0, 0);
 	},
 	setup_login: function() {
+		$(".splash").toggle(true);
 		$(".btn-login").click(function() {
 				treemapper.setup_persona();
 				navigator.id.request();
