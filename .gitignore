@@ -1,4 +1,4 @@
 *.pyc
 *.DS_Store
 gh_pages
-public/img/data
+public/img/data/*.jpg
