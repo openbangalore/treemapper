@@ -35,6 +35,7 @@ def make_tables():
 		"Tree": {
 			"filename": "data/tree/PUNE3_TreesOTM.csv", 
 			"primary_key": "ID",
+			"auto_increment": True,
 			"add_fields": ["local_name varchar(255)", "tree_img varchar(255)", 
 				"leaf_img varchar(255)", "user varchar(255)"]
 		}
@@ -43,7 +44,7 @@ def make_tables():
 	for tablename, opts in tables.items():
 		data = get_csv_data(opts["filename"])
 		database.create_table(tablename, data[0], opts.get("primary_key"), 
-			add_fields=opts.get("add_fields"),data=data)
+			add_fields=opts.get("add_fields"), data=data, auto_increment = opts.get("auto_increment"))
 	
 if __name__=="__main__":
 	make_db()
