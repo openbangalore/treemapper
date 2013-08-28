@@ -4,15 +4,15 @@ var treemapper = {};
 $(document).ready(function() {
 	if(getCookie("sid")) {
 		treemapper.call("verify", {}, function(res) { 
+			treemapper.hide_message();
 			if(res.session_status!="okay") {
 				treemapper.setup_login();
 			} else {
-				$(".btn-login").html("Add A Tree").on("click", function() {
-					treemapper.show_add();
-				})
+				treemapper.show_add();
 			}
 		});
 	} else {
+		treemapper.hide_message();
 		treemapper.setup_login();
 	}
 });
@@ -30,6 +30,25 @@ treemapper = {
 			L.marker([tree.point_y, tree.point_x]).addTo(map)
 				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
 		})
+	},
+	show_message: function(text, icon) {
+		if(!icon) icon="icon-refresh icon-spin";
+		treemapper.hide_message();
+		$('<div class="message-overlay"></div>')
+			.html('<div class="content"><i class="'+icon+' text-muted"></i><br>'
+				+text+'</div>').appendTo(document.body);
+	},
+	hide_message: function(text) {
+		$('.message-overlay').remove();
+	},
+	show_step: function(n) {
+		if(treemapper.current_step) {
+			$(".step-" + treemapper.current_step).toggle(false);
+		}
+		treemapper.current_step = n;
+		$(".step-" + treemapper.current_step).toggle(true);
+		
+		scroll(0, 0);
 	},
 	setup_login: function() {
 		$(".btn-login").click(function() {
