@@ -64,6 +64,7 @@ def create_table(tablename, columns, primary_key, add_fields=None, data=[], auto
 		ctype = guess_type([d[i] for d in data[1:10]])
 		keys = ""
 		if c==primary_key:
+			keys += " not null primary key"
 			if auto_increment:
 				keys += " auto_increment"
 		defs.append("`%s` %s %s" % (c.lower().strip(), ctype, keys))
