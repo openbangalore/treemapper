@@ -2,7 +2,7 @@
  {
   "creation": "2013-09-05 16:16:57", 
   "docstatus": 0, 
-  "modified": "2013-09-05 17:06:36", 
+  "modified": "2013-09-10 17:44:23", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -12,7 +12,8 @@
   "doctype": "DocType", 
   "document_type": "Master", 
   "module": "Treemapper", 
-  "name": "__common__"
+  "name": "__common__", 
+  "name_case": "Title Case"
  }, 
  {
   "doctype": "DocField", 
@@ -111,7 +112,13 @@
   "fieldname": "leaf_margin", 
   "fieldtype": "Select", 
   "label": "Leaf Margin", 
-  "options": "\nAcuminate\nCreanate\nCrenate-serrate\nCrenulate\nCuneate\nDentale\nDentate\nEntire\nNo\npalmate\nPeltet\nSerrate\nSinuate\nSpinus\nToothmargin\ntoothedmargin\nUndulate\nWavy"
+  "options": "\nAcuminate\nCreanate\nCrenate-serrate\nCrenulate\nCuneate\nDentale\nDentate\nEntire\nNo\npalmate\nPeltet\nSerrate\nSinuate\nSpinus\nTooth margin\nUndulate\nWavy"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "tree_details", 
+  "fieldtype": "Section Break", 
+  "label": "Tree Details"
  }, 
  {
   "doctype": "DocField", 
@@ -119,6 +126,46 @@
   "fieldtype": "Select", 
   "label": "Canopy Shape", 
   "options": "\nConical\nErect\nGlobular\nIrregular\nOval\nSpreading\nTrailing\nVase shaped"
+ }, 
+ {
+  "description": "Example - tall, short, smooth etc.", 
+  "doctype": "DocField", 
+  "fieldname": "bark", 
+  "fieldtype": "Data", 
+  "label": "Bark"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "flow_size", 
+  "fieldtype": "Data", 
+  "label": "Flow Size (cm)"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "flower", 
+  "fieldtype": "Data", 
+  "label": "Flower", 
+  "options": "Example: small, yellow etc."
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fruit", 
+  "fieldtype": "Data", 
+  "label": "Fruit", 
+  "options": "Example: round, oblong etc."
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fruit_size", 
+  "fieldtype": "Data", 
+  "label": "Fruit Size (cm)"
+ }, 
+ {
+  "description": "Example: March, April", 
+  "doctype": "DocField", 
+  "fieldname": "fruiting_months", 
+  "fieldtype": "Data", 
+  "label": "Fruiting Months"
  }, 
  {
   "doctype": "DocPerm"
