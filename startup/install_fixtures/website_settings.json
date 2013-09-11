@@ -29,6 +29,7 @@
   "twitter_share_via": null
  }, 
  {
+  "__islocal": 1,
   "creation": "2013-09-11 13:16:31", 
   "docstatus": 0, 
   "doctype": "Top Bar Item", 
@@ -36,7 +37,6 @@
   "label": "Tree Guide", 
   "modified": "2013-09-11 13:16:31", 
   "modified_by": "Administrator", 
-  "name": "000000659", 
   "owner": "Administrator", 
   "parent": "Website Settings", 
   "parent_label": null, 
