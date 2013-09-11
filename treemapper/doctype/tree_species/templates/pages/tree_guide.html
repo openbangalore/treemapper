@@ -1,0 +1,17 @@
+{% extends "lib/website/templates/base.html" %}
+
+{% set title="Treemapper.in: Tree Guide" %}
+
+{% block content%}
+<h1>Tree Guide</h1>
+<hr class="row">
+{% for s in species %}
+<a href="{{ s.name.lower().replace(' ', '-') }}">
+	<div class="row" style="margin-bottom: 7px; 
+		padding-bottom: 7px; border-bottom: 1px solid #e7e7e7;">
+		<div class="col-xs-6">{{ s.name }}</div>
+		<div class="col-xs-6"></div>
+	</div>
+</a>
+{% endfor %}
+{% endblock %}

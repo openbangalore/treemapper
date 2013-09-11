@@ -1,0 +1,81 @@
+[
+ {
+  "creation": "2013-09-11 14:45:42", 
+  "docstatus": 0, 
+  "modified": "2013-09-11 15:57:03", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "TREE.########", 
+  "doctype": "DocType", 
+  "module": "Treemapper", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Tree", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Tree", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "role": "Tree Expert", 
+  "write": 0
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Tree"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "tree_species", 
+  "fieldtype": "Link", 
+  "label": "Tree Species", 
+  "options": "Tree Species", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "latitude", 
+  "fieldtype": "Data", 
+  "label": "Latitude", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "longitude", 
+  "fieldtype": "Data", 
+  "label": "Longitude", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "tree_image", 
+  "fieldtype": "Data", 
+  "label": "Tree Image"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "leaf_image", 
+  "fieldtype": "Data", 
+  "label": "Leaf Image"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "details", 
+  "fieldtype": "Text", 
+  "label": "Details"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

@@ -2,7 +2,7 @@
  {
   "creation": "2013-09-05 16:16:57", 
   "docstatus": 0, 
-  "modified": "2013-09-10 17:44:23", 
+  "modified": "2013-09-11 12:22:08", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -166,6 +166,25 @@
   "fieldname": "fruiting_months", 
   "fieldtype": "Data", 
   "label": "Fruiting Months"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "website_publishing_details", 
+  "fieldtype": "Section Break", 
+  "label": "Website Publishing Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "publish", 
+  "fieldtype": "Check", 
+  "label": "Publish"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "page_name", 
+  "fieldtype": "Data", 
+  "label": "Page Name", 
+  "read_only": 1
  }, 
  {
   "doctype": "DocPerm"

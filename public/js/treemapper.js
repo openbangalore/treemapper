@@ -1,23 +1,19 @@
 var user=null;
 var treemapper = {};
+var sid = null;
 
 $(document).ready(function() {
-	if(getCookie("sid")) {
-		treemapper.call("verify", {}, function(res) { 
-			treemapper.hide_message();
-			if(res.session_status!="okay") {
-				treemapper.setup_login();
-			} else {
-				treemapper.show_add();
-			}
-		});
+	sid = getCookie("sid");
+	treemapper.hide_message();
+	if(sid && sid!=="Guest") {
+		treemapper.show_add();
 	} else {
-		treemapper.hide_message();
 		treemapper.setup_login();
 	}
 });
 
 treemapper = {
+	current_step: "1",
 	render: function() {
 		var map = L.map('map').setView([start_y, start_x], 13);
 
@@ -53,22 +49,12 @@ treemapper = {
 	setup_login: function() {
 		$(".splash").toggle(true);
 		$(".btn-login").click(function() {
-				treemapper.setup_persona();
-				navigator.id.request();
-			});
+			window.location.href = "login";
+		});
 	},
 	show_add: function() {
 		$(".splash").toggle(false);
 		$(".add-tree").toggle(true);
-
-		$(".toolbar-btn-area").html(repl('<p class="text-muted">%(email)s, <a href="#" class="logout">Logout</a></p>',
-				{email: getCookie("email")}));
-		
-		$(".logout").click(function() {
-			treemapper.setup_persona();
-			navigator.id.logout();
-			return false;
-		});
 	},
 	call: function(cmd, data, success, error) {
 		data.cmd = cmd;
@@ -87,22 +73,6 @@ treemapper = {
 			},
 			error: error
 		});
-	},
-	setup_persona: function() {
-		navigator.id.watch({
-			loggedInUser: getCookie("email"),
-			onlogin: function(assertion) {
-				$(".btn-login").html("Verifying...").attr("disabled", "disabled");
-				treemapper.call("login", {assertion: assertion}, function(res) {
-					treemapper.show_add();
-				})
-			},
-			onlogout: function() {
-				treemapper.call("logout", {}, function(res) {
-					window.location.reload();
-				})
-			}
-		})
 	},
 	get_form_values: function(id) {
 		var form = {};

@@ -1,6 +1,13 @@
 Tree Census Tool for TreeMapIndia
 ---
 
+### To Do
+
+- Integrate app into page
+- Fix login
+- Make tree pages from generator
+- Make recently added trees from generator
+
 ### Build on webnotes/wnframework
 
 Install
