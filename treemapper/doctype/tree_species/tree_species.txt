@@ -2,7 +2,7 @@
  {
   "creation": "2013-09-05 16:16:57", 
   "docstatus": 0, 
-  "modified": "2013-09-11 12:22:08", 
+  "modified": "2013-09-12 15:13:13", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -72,6 +72,26 @@
   "fieldtype": "Table", 
   "label": "Local Names", 
   "options": "Tree Species Local Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "images", 
+  "fieldtype": "Section Break", 
+  "label": "Images"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "leaf_image", 
+  "fieldtype": "Select", 
+  "label": "Leaf Image", 
+  "options": "attach_files:"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "tree_image", 
+  "fieldtype": "Select", 
+  "label": "Tree Image", 
+  "options": "attach_files:"
  }, 
  {
   "doctype": "DocField", 

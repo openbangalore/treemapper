@@ -3,7 +3,8 @@
 {% set title="Treemapper.in" %}
 
 {% block content %}
-<h1>{{ local_name or name }}</h1>
+<h1>{{ name }}</h1>
+<h4><span class="text-muted">Local Names:</span> {{ obj.local_names }}</h4>
 {% if wikipedia_link -%}
 <p>Wikipedia Link: <a href="{{ wikipedia_link }}" target="_blank">{{ wikipedia_link }}</a>
 {%- endif %}
@@ -11,20 +12,20 @@
 <h3>Images</h3>
 <div class="row">
 	<div class="col-sm-6">
-		{% if not tree_img -%}
+		{% if not tree_image -%}
 		<div class="alert alert-warning">Sample Image: No Image Set</div>
 		<br>
 		{%- endif %}
 		<img class="img-responsive tree-img" style="margin-top: 10px;"
-			src="{{ tree_img or 'app/img/tree-sample.png' }}">
+			src="{{ tree_image or 'app/img/tree-sample.png' }}">
 	</div>
 	<div class="col-sm-6">
-		{% if not leaf_img -%}
+		{% if not leaf_image -%}
 		<div class="alert alert-warning">Sample Image: No Image Set</div>
 		<br>
 		{%- endif %}
 		<img class="img-responsive leaf-img" style="margin-top: 10px;"
-			src="{{ leaf_img or 'app/img/leaf-sample.png' }}">
+			src="{{ leaf_image or 'app/img/leaf-sample.png' }}">
 	</div>
 </div>
 <h3>Properties</h3>

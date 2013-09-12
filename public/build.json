@@ -1,0 +1,8 @@
+{
+	"public/css/all-web.css": [
+		"app/public/js/treemapper.css",
+	],
+	"public/js/all-web.min.js": [
+		"app/public/js/treemapper.js"
+	]
+}

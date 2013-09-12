@@ -2,13 +2,12 @@
 
 {% set title="Treemapper.in" %}
 
-{% block head %}
-<link rel="stylesheet" href="app/css/treemapper.css" />
-{% endblock %}
-
 {% block content %}
-	<div class="add-tree" style="padding-bottom: 40px">
+	<div class="add-tree" style="padding-bottom: 40px; display: none;">
 		<h2>Add A Tree</h2>
+		<div class="progress">
+			<div class="progress-bar progress-bar-success" style="width: 5%;"></div>
+		</div>
 		<hr>
 		<!-- step 1 -->
 		<div class="step-1">
@@ -113,6 +112,9 @@
 	</div>
 	<script>
 		$(document).ready(function() {
+			treemapper.get_location("Checking location services on your device", function(pos) {
+				$(".add-tree").toggle(true);
+			})
 			wn.call({
 				method: "webnotes.auth.get_logged_user",
 				callback: function(r) {
@@ -185,6 +187,7 @@
 			tree_info.details = $(".details").val();
 			tree_info.doctype = "Tree";
 			wn.call({
+				type: "POST",
 				method: "webnotes.client.insert",
 				args: {
 					"doclist":JSON.stringify([tree_info]),

@@ -2,7 +2,7 @@
  {
   "creation": "2013-09-11 14:45:42", 
   "docstatus": 0, 
-  "modified": "2013-09-11 18:02:10", 
+  "modified": "2013-09-12 16:55:02", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -28,7 +28,6 @@
   "parenttype": "DocType", 
   "permlevel": 0, 
   "read": 1, 
-  "role": "Tree Expert", 
   "write": 0
  }, 
  {
@@ -76,6 +75,85 @@
   "label": "Details"
  }, 
  {
-  "doctype": "DocPerm"
+  "doctype": "DocField", 
+  "fieldname": "place", 
+  "fieldtype": "Section Break", 
+  "label": "Place"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "address_display", 
+  "fieldtype": "Text", 
+  "label": "Address Display"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "house", 
+  "fieldtype": "Data", 
+  "label": "House"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "road", 
+  "fieldtype": "Data", 
+  "label": "Road"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "village", 
+  "fieldtype": "Data", 
+  "label": "Village"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "town", 
+  "fieldtype": "Data", 
+  "label": "Town"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "suburb", 
+  "fieldtype": "Data", 
+  "label": "Suburb"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "city", 
+  "fieldtype": "Data", 
+  "label": "CIty"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "county", 
+  "fieldtype": "Data", 
+  "label": "County"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "country", 
+  "fieldtype": "Data", 
+  "label": "Country"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "post_code", 
+  "fieldtype": "Data", 
+  "label": "Post Code"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "country_code", 
+  "fieldtype": "Data", 
+  "label": "Country Code"
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "match": "owner", 
+  "role": "All"
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "role": "Tree Expert"
  }
 ]

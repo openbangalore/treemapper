@@ -4,7 +4,7 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
-import webnotes
+import webnotes, requests
 from webnotes.utils.file_manager import save_file
 
 class DocType:
@@ -19,11 +19,28 @@ class DocType:
 				setattr(self, img_name, base64.b64decode(self.doc.fields.get(img_name)))
 				self.doc.fields[img_name] = None
 				
+		self.set_address()
+				
 	def on_update(self):
 		if getattr(self, "tree_image", None):
 			webnotes.conn.set_in_doc(self.doc, "tree_image", save_file(self.doc.name + "-tree", 
-				self.tree_image, self.doc.doctype, self.doc.name).fname)
+				self.tree_image, self.doc.doctype, self.doc.name).file_name)
 
 		if getattr(self, "leaf_image", None):
 			webnotes.conn.set_in_doc(self.doc, "leaf_image", save_file(self.doc.name + "-leaf", 
-				 self.leaf_image, self.doc.doctype, self.doc.name).fname)
+				 self.leaf_image, self.doc.doctype, self.doc.name).file_name)
+				 
+	def set_address(self):
+		if not self.doc.country:
+			response = requests.get("http://nominatim.openstreetmap.org/reverse", params = {
+				"format": "json",
+				"lat": self.doc.latitude,
+				"lon": self.doc.longitude,
+				"address_details": 1,
+				"zoom": 18
+			})
+			if response.json:
+				self.doc.address_display = response.json["display_name"]
+				for key in response.json["address"]:
+					if self.bean.meta.get_field(key):
+						self.doc.fields[key] = response.json["address"][key]
