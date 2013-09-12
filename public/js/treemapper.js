@@ -3,13 +3,8 @@ var treemapper = {};
 var sid = null;
 
 $(document).ready(function() {
-	sid = getCookie("sid");
-	treemapper.hide_message();
-	if(sid && sid!=="Guest") {
-		treemapper.show_add();
-	} else {
-		treemapper.setup_login();
-	}
+	if(!wn.get_sid())
+		$("[data-label='Add A Tree']").toggle(false);
 });
 
 treemapper = {
@@ -26,16 +21,6 @@ treemapper = {
 			L.marker([tree.point_y, tree.point_x]).addTo(map)
 				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
 		})
-	},
-	show_message: function(text, icon) {
-		if(!icon) icon="icon-refresh icon-spin";
-		treemapper.hide_message();
-		$('<div class="message-overlay"></div>')
-			.html('<div class="content"><i class="'+icon+' text-muted"></i><br>'
-				+text+'</div>').appendTo(document.body);
-	},
-	hide_message: function(text) {
-		$('.message-overlay').remove();
 	},
 	show_step: function(n) {
 		if(treemapper.current_step) {
@@ -54,24 +39,8 @@ treemapper = {
 	},
 	show_add: function() {
 		$(".splash").toggle(false);
-		$(".add-tree").toggle(true);
-	},
-	call: function(cmd, data, success, error) {
-		data.cmd = cmd;
-		NProgress.start();
-		$.ajax({
-			type: 'POST',
-			url: 'server.py', // This is a URL on your website.
-			data: data,
-			dataType: "json",
-			success: function(r) {
-				NProgress.done();
-				if(r.action==="refresh") {
-					window.location.reload();
-				}
-				success(r);
-			},
-			error: error
+		treemapper.get_location("Checking location services on your device...", function() {
+				$(".add-tree").toggle(true);
 		});
 	},
 	get_form_values: function(id) {
@@ -81,27 +50,28 @@ treemapper = {
 		});
 		return form;
 	},
-}
-
-function repl(s, dict) {
-	if(s==null)return '';
-	for(key in dict) {
-		s = s.split("%("+key+")s").join(dict[key]);
+	get_location: function(message, callback) {
+		NProgress.start();
+		try {
+			wn.show_message(message, "icon-map-marker icon-spin");
+			navigator.geolocation.getCurrentPosition(function(pos) {
+				NProgress.done();
+				if(pos) {
+					callback(pos);
+					wn.hide_message();
+				} else {
+					treemapper.no_location();
+				}
+			});
+		} catch(e) {
+			console.log(e);
+			NProgress.done();
+			wn.hide_message();
+			treemapper.no_location();
+		}
+	},
+	no_location: function() {
+		wn.show_message("Please use a device with GPS and allow your browser to capture your location.", 
+			"icon-warning-sign")
 	}
-	return s;
 }
-
-function getCookie(c) {
-	if(!document.cookie) return "";
-	var clist = (document.cookie+'').split(';');
-	var cookies = {};
-	for(var i=0;i<clist.length;i++) {
-		var tmp = clist[i].split('=');
-		cookies[tmp[0].trim()] = tmp[1].trim();
-	}
-	ret = cookies[c];
-	if(ret && ret.substr(0,1)=='"') ret = ret.substr(1, ret.length-2);
-	return ret;
-}
-
-
