@@ -114,15 +114,15 @@
 		$(document).ready(function() {
 			treemapper.get_location("Checking location services on your device", function(pos) {
 				$(".add-tree").toggle(true);
-			})
-			wn.call({
-				method: "webnotes.auth.get_logged_user",
-				callback: function(r) {
-					if(r.exc) {
-						wn.show_message('You must be <a href="login">logged in</a> to continue.', 
-							"icon-warning-sign");
+				wn.call({
+					method: "webnotes.auth.get_logged_user",
+					callback: function(r) {
+						if(r.exc) {
+							wn.show_message('You must be <a href="login">logged in</a> to continue.', 
+								"icon-warning-sign");
+						}
 					}
-				}
+				})
 			})
 		})
 	
