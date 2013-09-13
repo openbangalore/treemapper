@@ -1,5 +1,6 @@
 {
 	"app_name": "Treemapper",
+	"base_template": "app/treemapper/templates/base.html",
 	"modules": {
 		"Tree Master": {
 			"link": "List/Tree Species",

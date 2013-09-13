@@ -1,4 +1,4 @@
-{% extends "lib/website/templates/base.html" %}
+{% extends base_template %}
 
 {% set title="Treemapper.in" %}
 
@@ -19,7 +19,9 @@
 	</div>
 	<script>
 	$(document).ready(function() {
-		$(".btn-start").attr("href", wn.get_sid() ? "add" : "login");
+		$(".btn-start")
+			.html(wn.get_sid() ? "Add A Tree" : "Sign in to Get Started")
+			.attr("href", wn.get_sid() ? "add" : "login");
 		treemapper.get_location("Finding trees mapped near you...", function(pos) {
 			wn.hide_message();
 			treemapper.render(pos.coords.latitude, pos.coords.longitude);
