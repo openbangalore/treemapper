@@ -157,11 +157,14 @@
 							// show ok sign
 							$("#" + $(me).attr("data-ok-img")).toggle(true);
 							
-							// save file data in tree_info
-							tree_info[$(me).attr("data-name")] = freader.result.split(",")[1];
+							var dataurl = treemapper.resize_image(freader, function(dataurl) {
+															
+								// save file data in tree_info
+								tree_info[$(me).attr("data-name")] = dataurl.split(",")[1];
 							
-							// go-next
-							treemapper.show_step($(me).attr("data-next"))
+								// go-next
+								treemapper.show_step($(me).attr("data-next"))
+							});
 						};
 						freader.readAsDataURL(fileobj);
 					}

@@ -30,11 +30,11 @@ class DocType:
 				
 	def on_update(self):
 		if getattr(self, "tree_image", None):
-			webnotes.conn.set_in_doc(self.doc, "tree_image", save_file(self.doc.name + "-tree", 
+			webnotes.conn.set_in_doc(self.doc, "tree_image", save_file(self.doc.name + "-tree.jpg", 
 				self.tree_image, self.doc.doctype, self.doc.name).file_name)
 
 		if getattr(self, "leaf_image", None):
-			webnotes.conn.set_in_doc(self.doc, "leaf_image", save_file(self.doc.name + "-leaf", 
+			webnotes.conn.set_in_doc(self.doc, "leaf_image", save_file(self.doc.name + "-leaf.jpg", 
 				 self.leaf_image, self.doc.doctype, self.doc.name).file_name)
 				 
 	def set_address(self):
