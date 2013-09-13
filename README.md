@@ -26,3 +26,9 @@ Install
 	1. MySQLdb
 	1. Jinja2
 	1. requests
+
+#### Export
+
+Before pushing, export install fixtures
+
+	$ python app/startup/install_fixtures/export_fixtures.py
