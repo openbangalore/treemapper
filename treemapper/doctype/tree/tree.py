@@ -46,8 +46,9 @@ class DocType:
 				"address_details": 1,
 				"zoom": 18
 			})
-			if response.json:
-				self.doc.address_display = response.json["display_name"]
-				for key in response.json["address"]:
+			response_json = response.json()
+			if response_json:
+				self.doc.address_display = response_json["display_name"]
+				for key in response_json["address"]:
 					if self.bean.meta.get_field(key):
-						self.doc.fields[key] = response.json["address"][key]
+						self.doc.fields[key] = response_json["address"][key]
