@@ -7,6 +7,13 @@ from __future__ import unicode_literals
 import webnotes, requests
 from webnotes.utils.file_manager import save_file
 
+@webnotes.whitelist(allow_guest=True)
+def get_trees(north, south, east, west):
+	return webnotes.conn.sql("""select tree_species, local_name, latitude, longitude, address_display, creation 
+		from tabTree where latitude between %s and %s
+		and longitude between %s and %s""", 
+		(south, north, west, east), as_dict=True)
+
 class DocType:
 	def __init__(self, d, dl):
 		self.doc, self.doclist = d, dl

@@ -9,17 +9,41 @@ $(document).ready(function() {
 
 treemapper = {
 	current_step: "1",
-	render: function() {
-		var map = L.map('map').setView([start_y, start_x], 13);
+	markers: [],
+	render: function(start_y, start_x) {
+		treemapper.map = L.map('map').setView([start_y, start_x], 13);
 
 		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		}).addTo(map);
+		}).addTo(treemapper.map);
+		
+		treemapper.show_tree_markers();
+		treemapper.map.on("zoomend", treemapper.show_tree_markers);
+	},
+	show_tree_markers: function() {
+		// clear existing
+		$.each(treemapper.markers, function(i, marker) {
+			treemapper.map.removeLayer(marker);
+		});
+		treemapper.makers = [];
 
-		trees.forEach(function(tree) {
-			L.marker([tree.point_y, tree.point_x]).addTo(map)
-				.bindPopup(repl("<b>%(scientific)s</b><br />%(address)s", tree));
+		var bounds = treemapper.map.getBounds();
+		wn.call({
+			method: "treemapper.doctype.tree.tree.get_trees",
+			args: {
+				north: bounds.getNorth(),
+				south: bounds.getSouth(),
+				east: bounds.getEast(),
+				west: bounds.getWest()
+			},
+			callback: function(r) {
+				$.each(r.message, function(i, tree) {
+					treemapper.markers.push(L.marker([tree.latitude, tree.longitude]).addTo(treemapper.map)
+						.bindPopup(repl("<b>%(tree_species)s</b><br />%(address_display)s", tree)));
+				})
+				
+			}
 		})
 	},
 	show_step: function(n) {
