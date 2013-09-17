@@ -156,8 +156,7 @@
 						freader.onload = function() {
 							// show ok sign
 							$("#" + $(me).attr("data-ok-img")).toggle(true);
-							
-							var dataurl = treemapper.resize_image(freader, function(dataurl) {
+							treemapper.resize_image(freader, function(dataurl) {
 															
 								// save file data in tree_info
 								tree_info[$(me).attr("data-name")] = dataurl.split(",")[1];

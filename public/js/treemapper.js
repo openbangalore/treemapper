@@ -20,6 +20,7 @@ treemapper = {
 		
 		treemapper.show_tree_markers();
 		treemapper.map.on("zoomend", treemapper.show_tree_markers);
+		treemapper.map.on("dragend", treemapper.show_tree_markers);
 	},
 	show_tree_markers: function() {
 		// clear existing
@@ -38,7 +39,7 @@ treemapper = {
 				west: bounds.getWest()
 			},
 			callback: function(r) {
-				$.each(r.message, function(i, tree) {
+				$.each(r.message || [], function(i, tree) {
 					treemapper.markers.push(L.marker([tree.latitude, tree.longitude]).addTo(treemapper.map)
 						.bindPopup(repl("<b>%(tree_species)s</b><br />%(address_display)s", tree)));
 				})
