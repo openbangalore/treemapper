@@ -5,8 +5,9 @@
 {% block content%}
 <h1>Tree Guide</h1>
 <hr class="row">
+<h3>Common Trees</h3>
 <div class="list-group">
-{% for s in species %}
+{% for s in common %}
 	<div class="list-group-item">
 		<div class="row">
 			<div class="col-xs-6">
@@ -28,4 +29,18 @@
 	</div>
 {% endfor %}
 </div>
+<hr>
+<h3>All Trees</h3>
+{% for s in all_trees %}
+{% if loop.index is even %}<div class="row">{% endif %}
+	<div class="col-xs-6">
+		<b><a href="{{ s.name.lower().replace(' ', '-') }}">{{ s.name }}</a></b>
+		<br>Local Names: {{ local_names[s.name] }}
+		{% if s.wikipedia_link -%}
+		<br><a href="{{ s.wikipedia_link }}" target="_blank">Wikipedia <i class="icon-external-link"></i></a>
+		{%- endif %}
+	</div>
+{% if loop.index is even %}</div><hr class="row">{% endif %}
+{% endfor %}
+
 {% endblock %}

@@ -2,11 +2,12 @@
  {
   "creation": "2013-09-05 16:17:24", 
   "docstatus": 0, 
-  "modified": "2013-09-05 17:04:16", 
+  "modified": "2013-09-18 11:12:59", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
  {
+  "autoname": "Prompt", 
   "doctype": "DocType", 
   "document_type": "Master", 
   "module": "Treemapper", 
