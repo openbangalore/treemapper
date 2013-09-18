@@ -2,7 +2,7 @@
  {
   "creation": "2013-09-05 16:16:57", 
   "docstatus": 0, 
-  "modified": "2013-09-12 15:13:13", 
+  "modified": "2013-09-18 10:21:57", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -33,6 +33,7 @@
   "parenttype": "DocType", 
   "permlevel": 0, 
   "read": 1, 
+  "report": 1, 
   "role": "Tree Expert", 
   "write": 1
  }, 

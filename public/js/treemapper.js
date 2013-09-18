@@ -130,6 +130,5 @@ treemapper = {
 			var dataURL = canvas.toDataURL("image/jpeg");
 			callback(dataURL);
 		}
- 
 	}
 }
