@@ -11,7 +11,7 @@
 		<hr>
 		<!-- step 1 -->
 		<div class="step-1">
-			<h3>1 of 5: Select Type</h3>
+			<h3>1 of 4: Select Type</h3>
 			<br>
 			<div class="row">
 				<div class="col-xs-12">
@@ -33,7 +33,7 @@
 		</div>
 		<!-- step 2 -->
 		<div class="step-2" style="display: none;">
-			<h3>2 of 5: Add Tree Picture</h3>
+			<h3>2 of 4: Add Tree Picture</h3>
 			<br>
 			<div class="alert alert-warning">1. Stand a few feet away from the tree 
 				and take an image covering as much of the tree as you can and as little 
@@ -51,29 +51,7 @@
 		</div>
 		<!-- step 3 -->
 		<div class="step-3" style="display: none;">
-			<h3>3 of 5: Add Leaf Picture</h3>
-			<br>
-			<div class="alert alert-warning">2. Optionally, take an image of the leaf 
-				on a clean background.
-			</div>
-			<div style="position: relative;">
-				<button class="btn btn-primary btn-lg">
-					<i class="icon-camera"></i> Attach Leaf Image</button>
-				<input class="form-control tree-leaf-input" data-name="leaf_image"
-					data-ok-img="icon-leaf-ok" data-next="4"
-					style="opacity: 0; position: absolute; top: 0; 
-						z-index: 1; cursor: pointer; height: 45px; width: 208px;"
-					type="file" name="leaf-photo">
-				
-				<i class="icon-ok" id="icon-leaf-ok" style="display:none"></i>
-			</div>
-			<br><br>
-			<button class="btn btn-default pull-right
-				btn-step-2" data-next="4">Skip This Step</button>
-		</div>
-		<!-- step 4 -->
-		<div class="step-4" style="display: none;">
-			<h3>4 of 5. Capture Location</h3>
+			<h3>3 of 4. Capture Location</h3>
 			<br>
 			<div class="alert alert-warning">Stand As Close to the tree as possible 
 				and click on the button below. Make sure your GPS is activated.</div>
@@ -85,8 +63,8 @@
 			<br>
 		</div>
 		<!-- step 5 -->
-		<div class="step-5" style="display: none;">
-			<h3>5 of 5. Additional Details</h3>
+		<div class="step-4" style="display: none;">
+			<h3>4 of 4. Additional Details</h3>
 			<br>
 			<div class="alert alert-warning">Add as many details as you can.</div>
 			<br>
@@ -104,7 +82,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="step-6" style="display: none;">
+		<div class="step-5" style="display: none;">
 			<div class="alert alert-success">Congrats! Your tree was successfully added.
 				<a href="javascript:location.reload()">Refresh to add another tree!</a>
 			</div>
@@ -147,7 +125,7 @@
 		})
 				
 		// step-2
-		$(".tree-img-input, .tree-leaf-input").change(function() {
+		$(".tree-img-input").change(function() {
 			if (this.type === 'file' && this.files && this.files.length > 0) {
 				var me = this;
 				$.each(this.files, function (idx, fileobj) {
@@ -172,13 +150,13 @@
 			return false;
 		});
 				
-		// step-4
+		// step-3
 		$(".btn-location").on("click", function() {
 			treemapper.get_location("Getting Location...", function(pos) {
 				tree_info.latitude = pos.coords.latitude;
 				tree_info.longitude = pos.coords.longitude;
 				$("#icon-location-ok").toggle(true);
-				treemapper.show_step("5");
+				treemapper.show_step("4");
 			});
 		});
 				
@@ -197,7 +175,7 @@
 				callback: function(r) {
 					if(!r.exc) {
 						wn.hide_message();
-						treemapper.show_step("6");
+						treemapper.show_step("5");
 					} else {
 						console.log(r.exc)
 						wn.show_message("<p>There were errors!</p>" +

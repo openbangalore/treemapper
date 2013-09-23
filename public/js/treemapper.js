@@ -54,7 +54,7 @@ treemapper = {
 		treemapper.current_step = n;
 		$(".step-" + treemapper.current_step).toggle(true);
 		
-		$(".progress-bar").css("width", ((parseInt(n)-1) * 100 / 5) + "%")
+		$(".progress-bar").css("width", ((parseInt(n)-1) * 100 / 4) + "%")
 		
 		scroll(0, 0);
 	},
