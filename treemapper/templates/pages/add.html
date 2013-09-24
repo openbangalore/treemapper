@@ -15,11 +15,8 @@
 			<br>
 			<div class="row">
 				<div class="col-xs-12">
-					<select class="form-control tree-type-select">
-						<option value="select">Select Tree Type...</option>
-						{% for n in tree_species -%}
-						<option value="{{ n.parent }}">{{ n.local_name }}</option>
-						{%- endfor %}
+					<input class="form-control tree-type-select" type="text" 
+						placeholder="Select Tree Type...">
 					</select>
 					<br>
 				</div>
@@ -89,7 +86,19 @@
 		</div>
 	</div>
 	<script>
+		var tree_species = {{ tree_species|json }};
+		
 		$(document).ready(function() {
+			$(".tree-type-select").typeahead({
+				local: tree_species,
+				name: "tree_species",
+				template: function(d) {
+					return repl('<p>%(value)s<br><span class="text-muted">%(local_name)s</span></p>', d);
+				}
+			}).on("typeahead:selected", function(d) {
+				$(this).trigger("change");
+			})
+			
 			treemapper.get_location("Checking location services on your device", function(pos) {
 				$(".add-tree").toggle(true);
 				wn.call({
