@@ -131,4 +131,4 @@ treemapper = {
 			callback(dataURL);
 		}
 	}
-}
+};
